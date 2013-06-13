@@ -15,15 +15,22 @@
  */
 package org.springframework.samples.websocket.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.integration.websocket.inbound.WebSocketMessageDrivenChannelAdapter;
 import org.springframework.samples.websocket.client.GreetingService;
 import org.springframework.samples.websocket.client.SimpleGreetingService;
 import org.springframework.samples.websocket.echo.DefaultEchoService;
 import org.springframework.samples.websocket.echo.EchoService;
 
 @Configuration
+@ImportResource("classpath:META-INF/spring/si-context.xml")
 public class RootConfig {
+
+	@Autowired
+	WebSocketMessageDrivenChannelAdapter inboundAdapter;
 
 	@Bean
 	public EchoService echoService() {

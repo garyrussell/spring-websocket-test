@@ -37,6 +37,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		urlMap.put("/echoWebSocketHandler", new WebSocketHttpRequestHandler(echoWebSocketHandler()));
 		urlMap.put("/snakeWebSocketHandler", new WebSocketHttpRequestHandler(snakeWebSocketHandler()));
 
+		urlMap.put("/siEcho", new WebSocketHttpRequestHandler(rootConfig.inboundAdapter));
+
 		urlMap.put("/sockjs/echo/**", new SockJsHttpRequestHandler(sockJsService, echoWebSocketHandler()));
 		urlMap.put("/sockjs/snake/**", new SockJsHttpRequestHandler(sockJsService, snakeWebSocketHandler()));
 
