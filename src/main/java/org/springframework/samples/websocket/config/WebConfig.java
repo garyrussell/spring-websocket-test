@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.websocket.inbound.UriPathHandlerMapping;
 import org.springframework.samples.websocket.echo.EchoWebSocketHandler;
 import org.springframework.samples.websocket.snake.websockethandler.SnakeWebSocketHandler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -37,8 +38,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		urlMap.put("/echoWebSocketHandler", new WebSocketHttpRequestHandler(echoWebSocketHandler()));
 		urlMap.put("/snakeWebSocketHandler", new WebSocketHttpRequestHandler(snakeWebSocketHandler()));
 
-		urlMap.put("/siEcho", new WebSocketHttpRequestHandler(rootConfig.inboundAdapter));
-
 		urlMap.put("/sockjs/echo/**", new SockJsHttpRequestHandler(sockJsService, echoWebSocketHandler()));
 		urlMap.put("/sockjs/snake/**", new SockJsHttpRequestHandler(sockJsService, snakeWebSocketHandler()));
 
@@ -47,6 +46,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		hm.setUrlMap(urlMap);
 
 		return hm;
+	}
+
+	@Bean
+	public UriPathHandlerMapping siHandlerMapper() {
+		// use a low Order to jump ahead of the default mapping
+		return new UriPathHandlerMapping(Integer.MIN_VALUE);
 	}
 
 	@Bean

@@ -7,7 +7,15 @@
 		http://www.springframework.org/schema/integration/websocket http://www.springframework.org/schema/integration/websocket/spring-integration-websocket.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<int-wskt:message-driven-channel-adapter channel="foo"/>
+	<int-wskt:message-driven-channel-adapter channel="foo"
+		path="/siEcho" />
+
+	<int-wskt:message-driven-channel-adapter channel="bar"
+		sockjs="true"
+		path="/sockjs/siEcho/**" />
+	
+	<int:transformer input-channel="bar" output-channel="foo"
+		expression="payload + '(sockjs)'"/>
 
 	<int:channel id="foo" />
 
